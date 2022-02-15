@@ -59,6 +59,11 @@ public class GameManager : MonoBehaviour
     public Player currentPlayer;
     public Player otherPlayer;
 
+    int randomRook1;
+    int randomRook2;
+    int randomKing;
+    int randomBishop;
+
     void Awake()
     {
         instance = this;
@@ -75,7 +80,9 @@ public class GameManager : MonoBehaviour
         currentPlayer = white;
         otherPlayer = black;
 
-        InitialSetup();
+        //InitialSetup();
+        Initial960();
+
     }
 
     private void InitialSetup()
@@ -108,6 +115,85 @@ public class GameManager : MonoBehaviour
             AddPiece(blackPawn, black, i, 6);
         }
     }
+
+    private void Initial960()
+    {
+        PlaceRooks960();
+        PlaceKing960();
+        PlaceBishops960();
+        PlaceRestOfPieces960();
+    }
+
+
+    private void PlaceRooks960()
+    {
+        randomRook1 = Random.Range(0, 5);
+
+        AddPiece(whiteRook, white, randomRook1, 0);
+        AddPiece(blackRook, black, randomRook1, 7);
+
+        randomRook2 = Random.Range(randomRook1 +2 , 7);
+
+        AddPiece(whiteRook, white, randomRook2, 0);
+        AddPiece(blackRook, black, randomRook2, 7);
+    }
+
+    private void PlaceKing960()
+    {
+        randomKing = Random.Range(randomRook1, randomRook2);
+        AddPiece(whiteKing, white, randomKing, 0);
+        AddPiece(blackKing, black, randomKing, 7);
+    }
+    private void PlaceBishops960()
+    {
+        bool pieceOneIsEven = true;
+        bool piecePlaced = false;
+        int colRandom = Random.Range(0, 7);
+
+
+        while(piecePlaced)
+        {
+            if(!pieces[colRandom, 0])
+            {
+                pieceOneIsEven = colRandom % 2 == 0;
+                AddPiece(whiteBishop, white, colRandom, 0);
+                AddPiece(blackBishop, black, colRandom, 7);
+                piecePlaced = true;
+            }
+            else
+            {
+                colRandom = Random.Range(0, 7);
+            }
+        }
+
+        while (piecePlaced)
+        {
+            if((pieceOneIsEven && colRandom %2 != 0) || (!pieceOneIsEven && colRandom %2 == 0))
+            {
+                if (!pieces[colRandom, 0])
+                {              
+                    AddPiece(whiteBishop, white, colRandom, 0);
+                    AddPiece(blackBishop, black, colRandom, 7);
+                    piecePlaced = true;
+                }
+                else
+                {
+                    colRandom = Random.Range(0, 7);
+                }
+            }
+        }
+
+    }
+
+    private void PlaceRestOfPieces960()
+    {
+        for (int i = 0; i < pieces.GetLength(0); i++)
+        {
+            
+        }
+    }
+
+
 
     public void AddPiece(GameObject prefab, Player player, int col, int row)
     {
