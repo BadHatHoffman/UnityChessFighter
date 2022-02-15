@@ -64,6 +64,9 @@ public class GameManager : MonoBehaviour
     int randomKing;
     int randomBishop1;
     int randomBishop2;
+    int randomKnight1;
+    int randomKnight2;
+    int randomQueen;
 
     void Awake()
     {
@@ -123,7 +126,50 @@ public class GameManager : MonoBehaviour
         PlaceKing960();
         PlaceBishops960();
         PlaceRestOfPieces960();
+
+        for (int i = 0; i < 8; i++)
+        {
+            AddPiece(whitePawn, white, i, 1);
+            AddPiece(blackPawn, black, i, 6);
+        }
+
+        RunTest();
     }
+
+    private void RunTest()
+    {
+        TestRookLocations();
+        TestKingBetweenRooks();
+        TestBishopLocations();
+        TestKnghtsPositions();
+        TestQueenPosition();
+    }
+
+    private void TestRookLocations()
+    {
+        print("Rook2 position minus the Rook1 position is >= 2 Leaving space between for the King " +  (randomRook2 - randomRook1 >= 2));   
+    }
+
+    private void TestKingBetweenRooks()
+    {
+        print("Rook1 Position is less than the Kings Position that is less than the Rook2 position: " + (randomRook1 < randomKing && randomKing < randomRook2) + " The King is inbetween both rooks");
+    }
+
+    private void TestBishopLocations()
+    {
+        print("Bishop 1 positon: " + randomBishop1 + "-- Bishop 2 position: " + randomBishop2 + "-- The bishops are on oposite squares");
+    }
+
+    private void TestKnghtsPositions()
+    {
+        print("Knight1 Position: " + randomKnight1 + " and Knight2 Position: " + randomKnight2 + " spawned in available spaces");
+    }
+
+    private void TestQueenPosition()
+    {
+        print("Queen spawned in the last available Position: " + randomQueen);
+    }
+
 
 
     private void PlaceRooks960()
@@ -185,6 +231,10 @@ public class GameManager : MonoBehaviour
                     randomBishop2 = Random.Range(0, 7);
                 }
             }
+            else
+            {
+                randomBishop2 = Random.Range(0, 7);
+            }
         }
     }
 
@@ -199,18 +249,21 @@ public class GameManager : MonoBehaviour
             {
                 if(!knight1)
                 {
+                    randomKnight1 = i;
                     AddPiece(whiteKnight, white, i, 0);
                     AddPiece(blackKnight, black, i, 7);
                     knight1 = true;
                 }
                 else if(!knight2)
                 {
+                    randomKnight2 = i;
                     AddPiece(whiteKnight, white, i, 0);
                     AddPiece(blackKnight, black, i, 7);
                     knight2 = true;
                 }
                 else
                 {
+                    randomQueen = i;
                     AddPiece(whiteQueen, white, i, 0);
                     AddPiece(blackQueen, black, i, 7);
                     break;
