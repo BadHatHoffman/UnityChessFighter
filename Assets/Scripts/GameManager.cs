@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviour
 
     public Board board;
 
+    public Canvas canvas;
+
     public GameObject whiteKing;
     public GameObject whiteQueen;
     public GameObject whiteBishop;
@@ -85,11 +87,11 @@ public class GameManager : MonoBehaviour
         otherPlayer = black;
 
         //InitialSetup();
-        Initial960();
+        //Initial960();
 
     }
 
-    private void InitialSetup()
+    public void InitialSetup()
     {
         AddPiece(whiteRook, white, 0, 0);
         AddPiece(whiteKnight, white, 1, 0);
@@ -118,9 +120,11 @@ public class GameManager : MonoBehaviour
         {
             AddPiece(blackPawn, black, i, 6);
         }
+
+        canvas.enabled = false;
     }
 
-    private void Initial960()
+    public void Initial960()
     {
         PlaceRooks960();
         PlaceKing960();
@@ -133,6 +137,7 @@ public class GameManager : MonoBehaviour
             AddPiece(blackPawn, black, i, 6);
         }
 
+        canvas.enabled = false;
         RunTest();
     }
 
