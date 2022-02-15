@@ -62,7 +62,8 @@ public class GameManager : MonoBehaviour
     int randomRook1;
     int randomRook2;
     int randomKing;
-    int randomBishop;
+    int randomBishop1;
+    int randomBishop2;
 
     void Awake()
     {
@@ -140,7 +141,7 @@ public class GameManager : MonoBehaviour
 
     private void PlaceKing960()
     {
-        randomKing = Random.Range(randomRook1, randomRook2);
+        randomKing = Random.Range(randomRook1 + 1, randomRook2);
         AddPiece(whiteKing, white, randomKing, 0);
         AddPiece(blackKing, black, randomKing, 7);
     }
@@ -148,48 +149,73 @@ public class GameManager : MonoBehaviour
     {
         bool pieceOneIsEven = true;
         bool piecePlaced = false;
-        int colRandom = Random.Range(0, 7);
+        randomBishop1 = Random.Range(0, 7);
+        randomBishop2 = Random.Range(0, 7);
 
 
-        while(piecePlaced)
+        while(!piecePlaced)
         {
-            if(!pieces[colRandom, 0])
+            if(!pieces[randomBishop1, 0])
             {
-                pieceOneIsEven = colRandom % 2 == 0;
-                AddPiece(whiteBishop, white, colRandom, 0);
-                AddPiece(blackBishop, black, colRandom, 7);
+                pieceOneIsEven = randomBishop1 % 2 == 0;
+                AddPiece(whiteBishop, white, randomBishop1, 0);
+                AddPiece(blackBishop, black, randomBishop1, 7);
                 piecePlaced = true;
             }
             else
             {
-                colRandom = Random.Range(0, 7);
+                randomBishop1 = Random.Range(0, 7);
             }
         }
 
-        while (piecePlaced)
+        piecePlaced = false;
+
+        while (!piecePlaced)
         {
-            if((pieceOneIsEven && colRandom %2 != 0) || (!pieceOneIsEven && colRandom %2 == 0))
+            if((pieceOneIsEven && randomBishop2 % 2 != 0) || (!pieceOneIsEven && randomBishop2 % 2 == 0))
             {
-                if (!pieces[colRandom, 0])
+                if (!pieces[randomBishop2, 0])
                 {              
-                    AddPiece(whiteBishop, white, colRandom, 0);
-                    AddPiece(blackBishop, black, colRandom, 7);
+                    AddPiece(whiteBishop, white, randomBishop2, 0);
+                    AddPiece(blackBishop, black, randomBishop2, 7);
                     piecePlaced = true;
                 }
                 else
                 {
-                    colRandom = Random.Range(0, 7);
+                    randomBishop2 = Random.Range(0, 7);
                 }
             }
         }
-
     }
 
     private void PlaceRestOfPieces960()
     {
+        bool knight1 = false;
+        bool knight2 = false;
+
         for (int i = 0; i < pieces.GetLength(0); i++)
         {
-            
+            if(!pieces[i,0])
+            {
+                if(!knight1)
+                {
+                    AddPiece(whiteKnight, white, i, 0);
+                    AddPiece(blackKnight, black, i, 7);
+                    knight1 = true;
+                }
+                else if(!knight2)
+                {
+                    AddPiece(whiteKnight, white, i, 0);
+                    AddPiece(blackKnight, black, i, 7);
+                    knight2 = true;
+                }
+                else
+                {
+                    AddPiece(whiteQueen, white, i, 0);
+                    AddPiece(blackQueen, black, i, 7);
+                    break;
+                }
+            }
         }
     }
 
